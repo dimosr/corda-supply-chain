@@ -2,9 +2,45 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <title>Example front-end.</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="app.js"></script>
 </head>
 <body>
-    <div>Define your front-end here.</div>
+    <nav class="navbar navbar-light bg-light">
+        <a id="node-container" class="navbar-brand" href="#">
+            <img src="/corda.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+
+        </a>
+    </nav>
+
+    <div class="m-5">
+        <h4>Current shipments</h4>
+        <table class="table table-striped table-bordered table-hover" id="cargo-items-table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Cargo ID</th>
+                <th>Schedule</th>
+                <th>Current Location</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary" href="/create_schedule.html" role="button">Create a new cargo shipment</a>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            populateNodeName("node-container", "schedule-distributors");
+            populateCargoItemsTable("cargo-items-table");
+        })
+    </script>
 </body>
 </html>

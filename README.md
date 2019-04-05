@@ -1,6 +1,7 @@
 # Corda - Supply Chain demo CorDapp
 
-This is a demo CorDapp, demonstrating a simplified supply chain workflow. 
+This is a demo CorDapp, demonstrating a simplified supply chain workflow.
+It's been created based on the CorDapp template provided [here](https://github.com/corda/cordapp-template-kotlin). 
 
 The main parties of the workflow are the various **distributors** of a **cargo** item. 
 Every item is can be scheduled to be transported from a distributor A to distributor Z via a pre-arranged list of co-operating distributors.
@@ -37,4 +38,8 @@ flow start ExitCargoFlow cargoID: 1adcea7d-a81a-405e-80ac-ad08f860a75a
 
 ## How to run the demo from the web interface
 
-[TODO]
+* Start one web server for each distributor, using the following command:
+```
+./gradlew runWebServer --args='--server.port=10050 --config.rpc.host=localhost --config.rpc.port=10006 --config.rpc.username=user --config.rpc.password=test'
+```
+Note: you will need to replace the `config.rpc.port`, so that each web server is attached to the appropriate Corda node.

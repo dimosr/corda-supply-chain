@@ -8,6 +8,7 @@ import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.flows.*
 import net.corda.core.identity.Party
 import net.corda.core.transactions.TransactionBuilder
+import java.lang.IllegalArgumentException
 
 /**
  * Flow triggered when a cargo is scheduled for transport.
@@ -20,6 +21,7 @@ class EnterCargoFlow(val tripDistributors: List<Party>, val cargoID: UniqueIdent
 
     @Suspendable
     override fun call(): UniqueIdentifier {
+        assert(tripDistributors.contains(ourIdentity)) {IllegalArgumentException("Our identity should be included in the shipment distributors.")}
         val initialDistributor = ourIdentity
 
         val cargoState = CargoState(tripDistributors, cargoID, initialDistributor)

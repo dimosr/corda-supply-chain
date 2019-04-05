@@ -25,6 +25,7 @@ class CargoContract : Contract {
                 val signers = commandWithParties.signers
                 val outputStates = tx.outputStates
                 requireThat { "Enter contains only one output cargo" using (outputStates.size == 1) }
+                requireThat { "Shipment contains more than one distributor" using (outputStates.first().participants.size > 1) }
                 requireThat { "Enter contains no inputs" using (tx.inputStates.isEmpty()) }
 
                 val outputState = outputStates.first() as CargoState

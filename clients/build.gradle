@@ -26,6 +26,9 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     compile "org.slf4j:jul-to-slf4j:$slf4j_version"
+
+    compile "net.corda:corda-jackson:$corda_release_version"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2"
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -47,8 +50,7 @@ task runTemplateClient(type: JavaExec) {
     args 'localhost:10006', 'user1', 'test'
 }
 
-task runTemplateServer(type: JavaExec) {
+task runWebServer(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.supplychain.webserver.ServerKt'
-    args '--server.port=10050', '--config.rpc.host=localhost', '--config.rpc.port=10006', '--config.rpc.username=user1', '--config.rpc.password=test'
 }

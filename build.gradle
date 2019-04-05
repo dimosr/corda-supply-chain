@@ -113,7 +113,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10006")
             adminAddress("localhost:10046")
         }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        rpcUsers = [[ user: "user", "password": "test", "permissions": ["ALL"]]]
     }
     node {
         name "O=Distributor-B,L=Zurich,C=CH"
@@ -122,7 +122,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10009")
             adminAddress("localhost:10049")
         }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        rpcUsers = [[ user: "user", "password": "test", "permissions": ["ALL"]]]
     }
     node {
         name "O=Distributor-C,L=New York,C=US"
@@ -131,6 +131,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10012")
             adminAddress("localhost:10052")
         }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        rpcUsers = [[ user: "user", "password": "test", "permissions": ["ALL"]]]
     }
 }

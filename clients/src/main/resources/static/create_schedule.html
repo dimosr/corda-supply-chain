@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Example front-end.</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="app.js"></script>
+
+    <style>
+        .clickable-group-item {
+            cursor: pointer;
+        }
+
+        ol .list-group-item {
+            display: list-item;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a id="node-container" class="navbar-brand" href="#">
+            <img src="/corda.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+
+        </a>
+    </nav>
+
+    <div class="m-4">
+        <h4>Select the distributors to add to the shipment:</h4>
+        <ul class="list-group" id="potential-distributors-list">
+        </ul>
+    </div>
+
+
+    <div class="m-4">
+        <h4>Current Shipment schedule</h4>
+        <form id="create-schedule-form" class="list-group list-group-flush">
+            <ol id="schedule-distributors">
+            </ol>
+        </form>
+
+        <button id="create-shipment-button" type="submit" class="btn btn-primary">Create shipment</button>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function(){
+            populateNodeName("node-container", "schedule-distributors");
+            populatePartiesName("potential-distributors-list", "schedule-distributors");
+
+            // search filter
+            $("#search-input").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".dropdown-menu li").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+            $("#create-shipment-button").click(function() {
+                event.preventDefault();
+                var scheduleDistributors = $("#schedule-distributors li").map(function() {
+                    return $(this).text();
+                }).toArray();
+                createSchedule(scheduleDistributors)
+            })
+        })
+    </script>
+</body>
