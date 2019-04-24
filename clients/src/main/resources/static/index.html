@@ -7,10 +7,15 @@
 
     <title>Example front-end.</title>
 
+    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
+    <div id="loader">
+        <div></div>
+    </div>
+
     <nav class="navbar navbar-light bg-light">
         <a id="node-container" class="navbar-brand" href="#">
             <img src="/corda.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -38,6 +43,8 @@
 
     <script>
         $(document).ready(function(){
+            hideLoader();
+
             populateNodeName("node-container", "schedule-distributors");
             populateCargoItemsTable("cargo-items-table");
         })

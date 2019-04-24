@@ -38,8 +38,31 @@ flow start ExitCargoFlow cargoID: 1adcea7d-a81a-405e-80ac-ad08f860a75a
 
 ## How to run the demo from the web interface
 
-* Start one web server for each distributor, using the following command:
+* Deploy and start the nodes as shown above
+
+* Start one web server for each distributor, using the following commands:
 ```
 ./gradlew runWebServer --args='--server.port=10050 --config.rpc.host=localhost --config.rpc.port=10006 --config.rpc.username=user --config.rpc.password=test'
+./gradlew runWebServer --args='--server.port=10051 --config.rpc.host=localhost --config.rpc.port=10009 --config.rpc.username=user --config.rpc.password=test'
+./gradlew runWebServer --args='--server.port=10052 --config.rpc.host=localhost --config.rpc.port=10012 --config.rpc.username=user --config.rpc.password=test'
 ```
-Note: you will need to replace the `config.rpc.port`, so that each web server is attached to the appropriate Corda node.
+There should be now 3 web servers running:
+* one listening in port 10050, connected to Distributor-A
+* one listening in port 10051, connected to Distributor-B
+* one listening in port 10052, connected to Distributor-C
+
+* You can visit the home page of Distributor-A, which will contain an empty table, since no shipments have been created.
+
+![Step 1](images/step_1.png)
+
+* By clicking on the button to create a new shipment, you will be moved to a separate page that allows you to specify the distributors included in the shipment.
+
+![Step 2](images/step_2.png)
+
+* After creating the shipment, you will be navigate back to the home page that now contains the newly created shipment. If you visit the second distributor of the shipment, you will see it contains an action button, which notifies that the cargo has been delivered at this distributor.
+
+![Step 3](images/step_3.png)
+
+* When the cargo has arrived to the final distributor, there will be a separate button that delivers the cargo, which essentially exits the associated state from the ledger.
+
+![Step 4](images/step_4.png)

@@ -1,11 +1,24 @@
 "use strict";
 
 var nodeName, otherPartiesName;
+var RELOAD_DELAY = 2500;
+
+function showLoader() {
+    $("#loader").show()
+}
+
+function hideLoader() {
+    $("#loader").hide()
+}
 
 function populateNodeName(nodeContainerId, scheduleDistributorsListId) {
     $.ajax({
         url: "/node",
+        beforeSend: function() {
+            showLoader();
+        },
         success: function( result ) {
+            hideLoader();
             nodeName = result.legalIdentitiesAndCerts[0];
             $( "#" + nodeContainerId ).append( nodeName );
             var nodeItem = $("<li>", {
@@ -20,7 +33,11 @@ function populateNodeName(nodeContainerId, scheduleDistributorsListId) {
 function populatePartiesName(selectorListId, formListId) {
     $.ajax({
         url: "/parties",
+        beforeSend: function() {
+            showLoader();
+        },
         success: function( result ) {
+            hideLoader();
             otherPartiesName = result;
             var listItems = otherPartiesName.map(name => $("<li>", {
                 text: name,
@@ -41,7 +58,11 @@ function populatePartiesName(selectorListId, formListId) {
 function populateCargoItemsTable(cargoTablesId) {
     $.ajax({
             url: "/cargo",
+            beforeSend: function() {
+                showLoader();
+            },
             success: function( result ) {
+                hideLoader();
                 var tableItems = result.map(cargoItem => {
                     var cargoIdColumn = $("<td>").text(cargoItem.cargoID.id);
                     var scheduleList = $("<ol>");
@@ -85,9 +106,13 @@ function inferPossibleActionsForCargo(participatingDistributorsList, currentDist
                         url: url,
                         method: "POST",
                         contentType: "application/json",
+                        beforeSend: function() {
+                            showLoader();
+                        },
                         success: function( result ) {
+                            hideLoader();
                             alert("Cargo arrived with ID: " + cargoID);
-                            location.reload();
+                            setTimeout(location.reload(), RELOAD_DELAY);
                         }
                     });
             }
@@ -106,9 +131,13 @@ function inferPossibleActionsForCargo(participatingDistributorsList, currentDist
                         url: url,
                         method: "POST",
                         contentType: "application/json",
+                        beforeSend: function() {
+                            showLoader();
+                        },
                         success: function( result ) {
+                            hideLoader();
                             alert("Cargo delivered with ID: " + cargoID);
-                            location.reload();
+                            setTimeout(location.reload(), RELOAD_DELAY);
                         }
                     });
             }
@@ -132,10 +161,14 @@ function createSchedule(distributorsName) {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 dataType: 'json',
+                beforeSend: function() {
+                    showLoader();
+                },
                 success: function( result ) {
+                    hideLoader();
                     var cargoID = result.cargoID;
                     alert("Cargo scheduled with ID: " + cargoID);
-                    location.replace("/index.html")
+                    setTimeout(location.replace("/index.html"), RELOAD_DELAY);
                 }
             });
     }
