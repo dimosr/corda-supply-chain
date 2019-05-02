@@ -68,3 +68,14 @@ There should be now 3 web servers running:
 * When the cargo has arrived to the final distributor, there will be a separate button that delivers the cargo, which essentially exits the associated state from the ledger.
 
 ![Step 4](images/step_4.png)
+
+## Disclaimer
+
+This project is developed for demonstration purposes and is **not suitable for production use**.
+
+## Things to add
+
+Below are some of the things I wanted to add, but did not have time to, so any contributions will be welcome:
+* Integration of the Rx observables (containing vault updates) with web sockets, so that the web browser automatically receives update and there is no need to refresh the page.
+* Integration with a front-end API, so that the various stations and the current location of a shipment can be visualised in a map.
+* Add the option to include an attachment on every transition between stations, so that distributors can attach a `.pdf` file, containing additional information for a shipment.
