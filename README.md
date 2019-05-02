@@ -1,3 +1,5 @@
+<img src="images/corda-logo.jpg" width="400" height="300" />
+
 # Corda - Supply Chain demo CorDapp
 
 This is a demo CorDapp, demonstrating a simplified supply chain workflow.
