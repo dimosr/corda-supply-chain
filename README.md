@@ -55,19 +55,19 @@ There should be now 3 web servers running:
 
 * You can visit the home page of Distributor-A, which will contain an empty table, since no shipments have been created.
 
-![Step 1](images/step_1.png)
+![Step 1](images/step_1.jpg)
 
 * By clicking on the button to create a new shipment, you will be moved to a separate page that allows you to specify the distributors included in the shipment.
 
-![Step 2](images/step_2.png)
+![Step 2](images/step_2.jpg)
 
 * After creating the shipment, you will be navigate back to the home page that now contains the newly created shipment. If you visit the second distributor of the shipment, you will see it contains an action button, which notifies that the cargo has been delivered at this distributor.
 
-![Step 3](images/step_3.png)
+![Step 3](images/step_3.jpg)
 
 * When the cargo has arrived to the final distributor, there will be a separate button that delivers the cargo, which essentially exits the associated state from the ledger.
 
-![Step 4](images/step_4.png)
+![Step 4](images/step_4.jpg)
 
 ## Disclaimer
 
