@@ -79,3 +79,4 @@ Below are some of the things I wanted to add, but did not have time to, so any c
 * Integration of the Rx observables (containing vault updates) with web sockets, so that the web browser automatically receives update and there is no need to refresh the page.
 * Integration with a front-end API, so that the various stations and the current location of a shipment can be visualised in a map.
 * Add the option to include an attachment on every transition between stations, so that distributors can attach a `.pdf` file, containing additional information for a shipment.
+* Add integration with Corda's [Node Explorer](https://docs.corda.net/node-explorer.html) that provides out-of-the-box map integration and also allows CorDapps to provide custom widgets for dashboards.
