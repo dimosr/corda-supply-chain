@@ -14,6 +14,8 @@ The main *flows* are the following:
 
 The cargo items are represented via a `LinearState` in the ledger.
 
+For a more detailed, high-level description, you can read the following [blogpost](https://dimosr.github.io/dissecting-a-cordapp/).
+
 ## How to run the demo from terminal
 
 * Deploy nodes
