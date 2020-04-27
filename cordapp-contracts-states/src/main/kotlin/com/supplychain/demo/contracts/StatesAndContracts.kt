@@ -86,7 +86,7 @@ data class CargoState(val participatingDistributors: List<Party>, val cargoID: U
     override fun generateMappedObject(schema: MappedSchema): PersistentState {
         return when(schema) {
             is CargoStateSchemaV1 -> {
-                CargoStateSchemaV1.PersistentCargoState(cargoID.toString(), participatingDistributors, currentDistributor)
+                CargoStateSchemaV1.PersistentCargoState(cargoID.toString(), participatingDistributors, currentDistributor, System.currentTimeMillis())
             }
             else -> throw IllegalArgumentException("Unsupported schema: $schema")
         }

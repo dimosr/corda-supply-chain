@@ -21,6 +21,9 @@ class EnterCargoFlow(val tripDistributors: List<Party>, val cargoID: UniqueIdent
 
     @Suspendable
     override fun call(): UniqueIdentifier {
+        val flowLock = FlowLockSchemaV1.FlowLock(cargoID.id.toString())
+        serviceHub.withEntityManager{ persist(flowLock) }
+
         assert(tripDistributors.contains(ourIdentity)) {IllegalArgumentException("Our identity should be included in the shipment distributors.")}
         val initialDistributor = ourIdentity
 

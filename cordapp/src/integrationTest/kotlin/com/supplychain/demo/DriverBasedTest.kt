@@ -4,9 +4,15 @@ import com.supplychain.demo.contracts.CargoState
 import com.supplychain.demo.flows.CargoArrivalReceiverFlow
 import com.supplychain.demo.flows.EnterCargoFlow
 import com.supplychain.demo.flows.ExitCargoFlow
+import net.corda.core.concurrent.CordaFuture
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.identity.CordaX500Name
 import net.corda.core.messaging.startFlow
+import net.corda.core.node.services.Vault
+import net.corda.core.node.services.vault.DEFAULT_PAGE_NUM
+import net.corda.core.node.services.vault.PageSpecification
+import net.corda.core.node.services.vault.QueryCriteria
+import net.corda.core.utilities.Try
 import net.corda.core.utilities.getOrThrow
 import net.corda.testing.core.DUMMY_NOTARY_NAME
 import net.corda.testing.core.TestIdentity
@@ -15,7 +21,10 @@ import net.corda.testing.node.NotarySpec
 import net.corda.testing.node.TestCordapp
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import kotlin.concurrent.thread
 
 class DriverBasedTest {
     private val distributorA = TestIdentity(CordaX500Name("Distributor-A", "London", "GB"))
@@ -46,6 +55,30 @@ class DriverBasedTest {
         distributorCHandle.rpc.startFlow(::ExitCargoFlow, CARGO_ID).returnValue.get()
         Thread.sleep(LEDGER_CONVERGENCE_PERIOD_MILLIS)
         verifyCargoDelivered(allDistributorHandles)
+    }
+
+    @Test
+    fun `execute the same flow multiple times concurrently`() = withDriver {
+        val (distributorAHandle, distributorBHandle, distributorCHandle) = startNodes(distributorA, distributorB, distributorC)
+        val allDistributorHandles = listOf(distributorAHandle, distributorBHandle, distributorCHandle)
+
+        val participatingDistributors = listOf(distributorAHandle.resolveParty(distributorA.name), distributorAHandle.resolveParty(distributorB.name), distributorCHandle.resolveParty(distributorC.name))
+
+        val executorService = Executors.newFixedThreadPool(10)
+        val future1 = executorService.submit(Callable<CordaFuture<*>> { distributorAHandle.rpc.startFlow(::EnterCargoFlow, participatingDistributors, CARGO_ID, notaryHandles.first().identity).returnValue })
+        val future2 = executorService.submit(Callable<CordaFuture<*>> { distributorAHandle.rpc.startFlow(::EnterCargoFlow, participatingDistributors, CARGO_ID, notaryHandles.first().identity).returnValue })
+        val future3 = executorService.submit(Callable<CordaFuture<*>> { distributorAHandle.rpc.startFlow(::EnterCargoFlow, participatingDistributors, CARGO_ID, notaryHandles.first().identity).returnValue })
+
+        val result1 = future1.get()
+        val result2 = future2.get()
+        val result3 = future3.get()
+
+        val successes = listOf(result1, result2, result3)
+                .map { Try.on { it.getOrThrow() } }
+                .filter { it.isSuccess }
+
+        assertThat(successes).hasSize(1)
+        verifyCargoInDistributor(distributorA.name, allDistributorHandles)
     }
 
     // Runs a test inside the Driver DSL, which provides useful functions for starting nodes, etc.
